@@ -1,0 +1,160 @@
+{
+  "version": "6.0",
+  "nxVersion": "21.2.2",
+  "pathMappings": {},
+  "nxJsonPlugins": [
+    {
+      "name": "@nx/playwright/plugin",
+      "options": {
+        "targetName": "e2e"
+      }
+    },
+    {
+      "name": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    }
+  ],
+  "fileMap": {
+    "nonProjectFiles": [],
+    "projectFileMap": {
+      "e2e": [
+        {
+          "file": "e2e/eslint.config.mjs",
+          "hash": "3980065308462174374"
+        },
+        {
+          "file": "e2e/playwright.config.ts",
+          "hash": "265891815156263514"
+        },
+        {
+          "file": "e2e/project.json",
+          "hash": "14644571580235177833"
+        },
+        {
+          "file": "e2e/src/example.spec.ts",
+          "hash": "4923723144160379964"
+        },
+        {
+          "file": "e2e/tsconfig.json",
+          "hash": "13093629721955912869"
+        }
+      ],
+      "formulas": [
+        {
+          "file": ".gitignore",
+          "hash": "557385588170937783"
+        },
+        {
+          "file": ".idea/.gitignore",
+          "hash": "16259663310133185705"
+        },
+        {
+          "file": "README.md",
+          "hash": "2751080697590249054"
+        },
+        {
+          "file": "assets/Challenge_AddBlock.png",
+          "hash": "4261850368700386864"
+        },
+        {
+          "file": "assets/Challenge_ChangingValueType.png",
+          "hash": "6516121750173906820"
+        },
+        {
+          "file": "assets/Challenge_EditBlock.png",
+          "hash": "16711508640556609375"
+        },
+        {
+          "file": "assets/IntelliJ-configuration.png",
+          "hash": "14534357700415062089"
+        },
+        {
+          "file": "assets/calculator-example-ui.png",
+          "hash": "14633608880273984700"
+        },
+        {
+          "file": "eslint.config.mjs",
+          "hash": "14070652578410166583"
+        },
+        {
+          "file": "jest.config.ts",
+          "hash": "1954034191037822263"
+        },
+        {
+          "file": "jest.preset.js",
+          "hash": "7473220183190921152"
+        },
+        {
+          "file": "nx.json",
+          "hash": "16899628786244434714"
+        },
+        {
+          "file": "package.json",
+          "hash": "2048085482412540941"
+        },
+        {
+          "file": "project.json",
+          "hash": "7679819872354240299"
+        },
+        {
+          "file": "public/favicon.ico",
+          "hash": "9303420814833116677"
+        },
+        {
+          "file": "src/app/app.config.ts",
+          "hash": "10425460296343978567"
+        },
+        {
+          "file": "src/app/app.html",
+          "hash": "7580777287725409404"
+        },
+        {
+          "file": "src/app/app.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/app/app.spec.ts",
+          "hash": "11223241435095730774"
+        },
+        {
+          "file": "src/app/app.ts",
+          "hash": "4429140698143209347"
+        },
+        {
+          "file": "src/app/parser/formula-parser.js",
+          "hash": "17211872065108302006"
+        },
+        {
+          "file": "src/index.html",
+          "hash": "12723493099942866027"
+        },
+        {
+          "file": "src/main.ts",
+          "hash": "3314327030169821486"
+        },
+        {
+          "file": "src/styles.scss",
+          "hash": "5195668842064076916"
+        },
+        {
+          "file": "src/test-setup.ts",
+          "hash": "1917999429567095215"
+        },
+        {
+          "file": "tsconfig.app.json",
+          "hash": "15340253233484961218"
+        },
+        {
+          "file": "tsconfig.json",
+          "hash": "6577032168820276699"
+        },
+        {
+          "file": "tsconfig.spec.json",
+          "hash": "10637120982226079365"
+        }
+      ]
+    }
+  }
+}

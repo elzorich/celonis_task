@@ -1,0 +1,187 @@
+// ==========================================================================
+// Design System Variables
+// ==========================================================================
+
+// -----------------------------------------------------------------------------
+// Colors
+// -----------------------------------------------------------------------------
+
+// Primary Colors
+$color-primary: #667eea;
+$color-primary-dark: #764ba2;
+$color-primary-light: #8b9aff;
+
+// Secondary Colors  
+$color-secondary: #f093fb;
+$color-secondary-dark: #f5576c;
+
+// Accent Colors
+$color-accent-blue: #4facfe;
+$color-accent-blue-light: #00f2fe;
+$color-accent-pink: #fa709a;
+$color-accent-yellow: #fee140;
+$color-accent-red: #ff4458;
+$color-accent-red-dark: #ff2838;
+
+// Semantic Colors
+$color-success: #a8e6cf;
+$color-success-light: #dcedc1;
+$color-warning: #ffcc80;
+$color-warning-light: #ffe0b2;
+$color-error: #ff6b6b;
+$color-info: #2196F3;
+$color-info-light: #64b5f6;
+
+// Neutral Colors
+$color-white: #ffffff;
+$color-black: #000000;
+$color-gray-100: #f8f9fa;
+$color-gray-200: #f5f5f5;
+$color-gray-300: #e0e0e0;
+$color-gray-400: #ddd;
+$color-gray-500: #ccc;
+$color-gray-600: #bbb;
+$color-gray-700: #999;
+$color-gray-800: #666;
+$color-gray-900: #555;
+$color-text: #333;
+
+// Node Type Colors
+$color-operator: #4a5f4e;
+$color-function: #6a1b9a;
+$color-leaf: #e65100;
+$color-function-bg: #ce93d8;
+$color-function-bg-light: #e1bee7;
+
+// -----------------------------------------------------------------------------
+// Typography
+// -----------------------------------------------------------------------------
+
+// Font Families
+$font-family-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$font-family-mono: 'Courier New', Courier, monospace;
+
+// Font Sizes
+$font-size-xs: 0.75rem;      // 12px
+$font-size-sm: 0.875rem;     // 14px
+$font-size-base: 1rem;       // 16px
+$font-size-lg: 1.125rem;     // 18px
+$font-size-xl: 1.25rem;      // 20px
+$font-size-2xl: 1.5rem;      // 24px
+$font-size-3xl: 2rem;        // 32px
+$font-size-4xl: 2.5rem;      // 40px
+
+// Font Weights
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Line Heights
+$line-height-tight: 1.2;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.75;
+
+// -----------------------------------------------------------------------------
+// Spacing
+// -----------------------------------------------------------------------------
+
+$spacing-xs: 0.25rem;    // 4px
+$spacing-sm: 0.5rem;     // 8px
+$spacing-md: 0.75rem;    // 12px
+$spacing-base: 1rem;     // 16px
+$spacing-lg: 1.25rem;    // 20px
+$spacing-xl: 1.5rem;     // 24px
+$spacing-2xl: 2rem;      // 32px
+$spacing-3xl: 2.5rem;    // 40px
+$spacing-4xl: 3rem;      // 48px
+
+// -----------------------------------------------------------------------------
+// Border Radius
+// -----------------------------------------------------------------------------
+
+$radius-sm: 0.25rem;     // 4px
+$radius-base: 0.375rem; // 6px
+$radius-md: 0.5rem;     // 8px
+$radius-lg: 0.75rem;    // 12px
+$radius-xl: 1rem;       // 16px
+$radius-2xl: 1.5rem;    // 24px
+$radius-full: 50%;
+
+// -----------------------------------------------------------------------------
+// Borders
+// -----------------------------------------------------------------------------
+
+$border-width-thin: 0.0625rem;   // 1px
+$border-width-base: 0.125rem;    // 2px
+$border-width-thick: 0.1875rem;  // 3px
+
+// -----------------------------------------------------------------------------
+// Shadows
+// -----------------------------------------------------------------------------
+
+$shadow-xs: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.05);
+$shadow-sm: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.1);
+$shadow-base: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+$shadow-md: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
+$shadow-xl: 0 0.375rem 1.25rem rgba(0, 0, 0, 0.15);
+$shadow-2xl: 0 0.625rem 2.5rem rgba(0, 0, 0, 0.2);
+
+// Colored Shadows
+$shadow-primary: 0 0.25rem 0.75rem rgba(102, 126, 234, 0.4);
+$shadow-secondary: 0 0.25rem 0.75rem rgba(245, 87, 108, 0.4);
+$shadow-info: 0 0.25rem 0.75rem rgba(79, 172, 254, 0.4);
+$shadow-accent-pink: 0 0.25rem 0.75rem rgba(250, 112, 154, 0.4);
+$shadow-error: 0 0.125rem 0.5rem rgba(255, 68, 88, 0.5);
+
+// -----------------------------------------------------------------------------
+// Transitions
+// -----------------------------------------------------------------------------
+
+$transition-fast: 0.2s ease;
+$transition-base: 0.3s ease;
+$transition-slow: 0.5s ease;
+
+// -----------------------------------------------------------------------------
+// Z-Index
+// -----------------------------------------------------------------------------
+
+$z-index-base: 1;
+$z-index-above: 5;
+$z-index-modal: 10;
+$z-index-popover: 20;
+$z-index-tooltip: 30;
+$z-index-max: 9999;
+
+// -----------------------------------------------------------------------------
+// Layout
+// -----------------------------------------------------------------------------
+
+$container-max-width: 75rem; // 1200px
+$min-height-container: 31.25rem; // 500px
+$min-height-tree: 18.75rem; // 300px
+
+// -----------------------------------------------------------------------------
+// Component Specific
+// -----------------------------------------------------------------------------
+
+// Buttons
+$btn-padding-sm: $spacing-sm $spacing-base;
+$btn-padding-base: $spacing-md $spacing-lg;
+$btn-padding-lg: $spacing-base $spacing-xl;
+
+// Nodes
+$node-min-width: 4rem;
+$node-min-width-base: 5rem;
+$node-min-width-root: 7.5rem;
+$node-icon-size: 1.125rem;
+$node-delete-btn-size: 1.75rem;
+
+// Tree
+$tree-connection-width: 0.125rem;
+$tree-connection-height: 2rem;
+$tree-operator-badge-size: 2rem;
+
+// Animation
+$animation-pulse-duration: 2s;

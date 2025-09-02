@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, computed, signal, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstNode, NodeMetadata, isBinaryOperation, isUnaryOperation, isFunction, isLeafNode } from '../../models/ast-node.model';
 
@@ -10,7 +10,7 @@ import { AstNode, NodeMetadata, isBinaryOperation, isUnaryOperation, isFunction,
   styleUrl: './node.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NodeComponent implements OnChanges {
+export class NodeComponent {
   private _node!: AstNode;
   private nodeSignal = signal<AstNode | null>(null);
   
@@ -29,12 +29,6 @@ export class NodeComponent implements OnChanges {
   @Output() nodeClick = new EventEmitter<string>();
   @Output() nodeDelete = new EventEmitter<string>();
   
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['node']) {
-      console.log('Node changed:', changes['node'].currentValue);
-    }
-  }
-
   // Node type metadata for visualization
   private readonly metadata: Record<string, NodeMetadata> = {
     'ADDITION': { color: '#a8e6cf', icon: '+', label: 'Add', deletable: true },
@@ -51,7 +45,6 @@ export class NodeComponent implements OnChanges {
     'E': { color: '#4db6ac', icon: 'e', label: 'E', deletable: false }
   };
 
-  // Getters for node properties
   get nodeType(): string {
     return this.node?.type || 'UNKNOWN';
   }
@@ -69,7 +62,6 @@ export class NodeComponent implements OnChanges {
     };
   }
 
-  // Type checking computed signals
   readonly isBinary = computed(() => {
     const node = this.nodeSignal();
     return node ? isBinaryOperation(node) : false;
@@ -90,7 +82,6 @@ export class NodeComponent implements OnChanges {
     return node ? isLeafNode(node) : false;
   });
 
-  // Node specific properties
   readonly leftChild = computed(() => {
     const node = this.nodeSignal();
     if (node && isBinaryOperation(node)) {

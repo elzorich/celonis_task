@@ -24,7 +24,7 @@ export class TreeVisualizerComponent {
   readonly canDelete = this.astService.canDelete;
   
   constructor() {
-    // Debug: Log when AST changes
+    //Log when AST changes
     effect(() => {
       const astValue = this.ast();
       console.log('TreeVisualizer - AST changed:', astValue);

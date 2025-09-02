@@ -66,10 +66,6 @@ export class FormulaBuilderService {
     }
   }
 
-  /**
-   * Visit binary operation node
-   * Handles operator precedence with parentheses
-   */
   private visitBinaryOperation(node: BinaryOperationNode, parent?: AstNode): string {
     const operator = this.operators[node.type] || '?';
     const leftExpr = this.visit(node.left, node);
@@ -88,12 +84,10 @@ export class FormulaBuilderService {
   private visitUnaryOperation(node: UnaryOperationNode, parent?: AstNode): string {
     const expr = this.visit(node.expression, node);
     
-    // Handle parentheses
     if (node.type === 'PAREN') {
       return `(${expr})`;
     }
     
-    // Handle negation
     // Check if inner expression needs parentheses
     if (node.expression && isBinaryOperation(node.expression)) {
       return `-(${expr})`;
@@ -125,13 +119,6 @@ export class FormulaBuilderService {
     return node.type;
   }
 
-  /**
-   * Determine if parentheses are needed based on operator precedence
-   * Lower precedence operations need parentheses when nested in higher precedence
-   * 
-   * Example: (2 + 3) * 4 needs parentheses
-   * But: 2 * 3 + 4 doesn't need parentheses
-   */
   private needsParentheses(parent: AstNode, child: AstNode): boolean {
     const parentPrecedence = this.precedence[parent.type];
     const childPrecedence = this.precedence[child.type];
@@ -140,13 +127,10 @@ export class FormulaBuilderService {
       return false;
     }
     
-    // Need parentheses if child has lower precedence
-    // Also need them for same precedence in certain cases (like subtraction/division)
     if (childPrecedence < parentPrecedence) {
       return true;
     }
     
-    // Special case: right-associative operations
     if (childPrecedence === parentPrecedence) {
       // For subtraction and division, right operand needs parentheses
       if ((parent.type === 'SUBTRACTION' || parent.type === 'DIVISION') &&

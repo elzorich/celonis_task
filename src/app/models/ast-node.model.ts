@@ -1,7 +1,7 @@
 export interface BaseAstNode {
   type: string;
-  id?: string; // Unique identifier for tracking in UI
-  selected?: boolean; // UI state for selection
+  id?: string;
+  selected?: boolean;
 }
 
 export interface BinaryOperationNode extends BaseAstNode {
@@ -43,7 +43,6 @@ export type AstNode =
   | VariableNode 
   | ConstantNode;
 
-// Node metadata for UI visualization
 export interface NodeMetadata {
   color: string;
   icon: string;

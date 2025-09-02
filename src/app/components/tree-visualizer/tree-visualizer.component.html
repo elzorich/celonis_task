@@ -1,5 +1,4 @@
 <div class="tree-visualizer">
-  <!-- Header with stats and controls -->
   <div class="visualizer-header">
     <h3>AST Tree Visualization</h3>
     
@@ -47,7 +46,6 @@
     }
   </div>
 
-  <!-- Formula reconstruction display -->
   @if (ast()) {
     <div class="formula-display">
       <label>Reconstructed Formula:</label>
@@ -55,7 +53,6 @@
     </div>
   }
 
-  <!-- Tree visualization -->
   <div class="tree-container">
     @if (ast()) {
       <app-node
@@ -73,7 +70,6 @@
     }
   </div>
 
-  <!-- Legend -->
   @if (ast()) {
     <div class="legend">
       <h4>Legend</h4>

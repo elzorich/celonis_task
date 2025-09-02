@@ -12,27 +12,11 @@ import {
   isFunction
 } from '../models/ast-node.model';
 
-/**
- * Formula Builder Service - Visitor Pattern Implementation
- * 
- * Learning Points:
- * 1. Visitor Pattern: Separates algorithm from object structure
- * 2. Each node type has its own visit method
- * 3. Handles operator precedence automatically
- * 
- * Design Patterns:
- * - Visitor Pattern: Visit methods for each node type
- * - Strategy Pattern: Different strategies for different node types
- * 
- * SOLID Principles:
- * - Open/Closed: Can add new node types without modifying existing code
- * - Single Responsibility: Only responsible for AST to string conversion
- */
 @Injectable({
   providedIn: 'root'
 })
 export class FormulaBuilderService {
-  // Operator precedence for proper parentheses placement
+
   private readonly precedence: Record<string, number> = {
     'ADDITION': 1,
     'SUBTRACTION': 1,
@@ -42,7 +26,6 @@ export class FormulaBuilderService {
     'NEGATION': 4
   };
 
-  // Operator symbols mapping
   private readonly operators: Record<string, string> = {
     'ADDITION': '+',
     'SUBTRACTION': '-',
@@ -51,21 +34,12 @@ export class FormulaBuilderService {
     'POWER': '^'
   };
 
-  /**
-   * Main entry point - builds formula from AST
-   * Demonstrates the Visitor pattern entry point
-   */
   buildFormula(ast: AstNode | null): string {
     if (!ast) return '';
     return this.visit(ast);
   }
 
-  /**
-   * Central dispatcher - routes to appropriate visitor method
-   * This is the core of the Visitor pattern
-   */
   private visit(node: AstNode, parent?: AstNode): string {
-    // Type-safe visitor routing
     if (isBinaryOperation(node)) {
       return this.visitBinaryOperation(node, parent);
     }
@@ -111,12 +85,15 @@ export class FormulaBuilderService {
     return expression;
   }
 
-  /**
-   * Visit unary operation node (negation)
-   */
   private visitUnaryOperation(node: UnaryOperationNode, parent?: AstNode): string {
     const expr = this.visit(node.expression, node);
     
+    // Handle parentheses
+    if (node.type === 'PAREN') {
+      return `(${expr})`;
+    }
+    
+    // Handle negation
     // Check if inner expression needs parentheses
     if (node.expression && isBinaryOperation(node.expression)) {
       return `-(${expr})`;
@@ -125,10 +102,6 @@ export class FormulaBuilderService {
     return `-${expr}`;
   }
 
-  /**
-   * Visit function node
-   * Formats as FUNCTION_NAME(arg1, arg2, ...)
-   */
   private visitFunction(node: FunctionNode): string {
     const args = node.arguments
       .map(arg => this.visit(arg))
@@ -137,9 +110,6 @@ export class FormulaBuilderService {
     return `${node.name}(${args})`;
   }
 
-  /**
-   * Visit number node
-   */
   private visitNumber(node: NumberNode): string {
     // Handle integers vs decimals
     return Number.isInteger(node.value) 
@@ -147,17 +117,10 @@ export class FormulaBuilderService {
       : node.value.toFixed(2);
   }
 
-  /**
-   * Visit variable node
-   * Variables start with $ in our formula language
-   */
   private visitVariable(node: VariableNode): string {
     return node.name.startsWith('$') ? node.name : `$${node.name}`;
   }
 
-  /**
-   * Visit constant node (PI, E)
-   */
   private visitConstant(node: ConstantNode): string {
     return node.type;
   }
@@ -195,64 +158,13 @@ export class FormulaBuilderService {
     return false;
   }
 
-  /**
-   * Validate formula structure
-   * Returns errors if formula is invalid
-   */
-  validateFormula(ast: AstNode): string[] {
-    const errors: string[] = [];
-    
-    this.validateNode(ast, errors);
-    
-    return errors;
-  }
-
-  private validateNode(node: AstNode, errors: string[]): void {
-    if (isBinaryOperation(node)) {
-      if (!node.left || !node.right) {
-        errors.push(`Binary operation ${node.type} missing operands`);
-      } else {
-        this.validateNode(node.left, errors);
-        this.validateNode(node.right, errors);
-      }
-    } else if (isUnaryOperation(node)) {
-      if (!node.expression) {
-        errors.push('Unary operation missing expression');
-      } else {
-        this.validateNode(node.expression, errors);
-      }
-    } else if (isFunction(node)) {
-      if (!node.name) {
-        errors.push('Function missing name');
-      }
-      if (node.arguments.length === 0) {
-        errors.push(`Function ${node.name} has no arguments`);
-      }
-      node.arguments.forEach(arg => this.validateNode(arg, errors));
-    } else if (node.type === 'NUMBER') {
-      const numNode = node as NumberNode;
-      if (typeof numNode.value !== 'number' || isNaN(numNode.value)) {
-        errors.push('Invalid number value');
-      }
-    } else if (node.type === 'VARIABLE') {
-      const varNode = node as VariableNode;
-      if (!varNode.name) {
-        errors.push('Variable missing name');
-      }
-    }
-  }
-
-  /**
-   * Get a human-readable description of a node
-   * Useful for tooltips and debugging
-   */
   getNodeDescription(node: AstNode): string {
     if (isBinaryOperation(node)) {
       return `${node.type.toLowerCase()} operation`;
     }
     
     if (isUnaryOperation(node)) {
-      return 'negation';
+      return node.type === 'PAREN' ? 'parentheses' : 'negation';
     }
     
     if (isFunction(node)) {

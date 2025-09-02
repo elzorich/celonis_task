@@ -1,15 +1,68 @@
-<div>
-  <h1>
-    Welcome to the formulizer!
-  </h1>
-  <h3>Input formula</h3>
-  <p>
-    <textarea cols="100" rows="8" [(ngModel)]="formula"></textarea><br>
-  </p>
-  <p><button (click)="updateAstView()">Parse and update AST View</button></p>
-  <h3>Visualizer</h3>
-  <pre style="max-height: 300px; overflow-y: auto;background-color: #eeeeee;">{{syntaxTreeJson}}</pre>
-  <p><button (click)="convertAstToFormula()">Convert AST to Formula</button></p>
-  <h3>Visualizer-to-Formula</h3>
-  <p>{{ visualizerOutput }}</p>
+<div class="app-container">
+  <header class="app-header">
+    <h1>Formula AST Visualizer</h1>
+  </header>
+  <main class="app-main">
+    <section class="formula-section">
+      <h2>Formula Input</h2>
+      <div class="example-buttons">
+        <span class="label">Examples:</span>
+        <button 
+          class="btn btn-example"
+          (click)="loadExample('quadratic')">
+          Quadratic
+        </button>
+        <button 
+          class="btn btn-example"
+          (click)="loadExample('simple')">
+          Simple
+        </button>
+        <button 
+          class="btn btn-example"
+          (click)="loadExample('complex')">
+          Complex
+        </button>
+        <button 
+          class="btn btn-example"
+          (click)="loadExample('arithmetic')">
+          Arithmetic
+        </button>
+        <button 
+          class="btn btn-example"
+          (click)="loadExample('nested')">
+          Nested
+        </button>
+      </div>
+
+      <div class="formula-input">
+        <textarea 
+          class="formula-textarea"
+          [value]="formula()"
+          (input)="updateFormula($event)"
+          placeholder="Enter your formula here..."
+          rows="4">
+        </textarea>
+      </div>
+
+      <div class="action-buttons">
+        <button 
+          class="btn btn-primary"
+          (click)="parseFormula()"
+          [disabled]="!hasFormula() || isProcessing()">
+          {{ isProcessing() ? 'Parsing...' : 'Parse Formula' }}
+        </button>
+        
+        <button 
+          class="btn btn-secondary"
+          (click)="clearAll()">
+          Clear All
+        </button>
+      </div>
+    </section>
+
+    <section class="visualization-section">
+      <h2>Tree Visualization</h2>
+      <app-tree-visualizer />
+    </section>
+  </main>
 </div>

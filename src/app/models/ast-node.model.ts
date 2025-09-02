@@ -1,40 +1,26 @@
-/**
- * AST Node Models and Interfaces
- * 
- * This file demonstrates several SOLID principles:
- * 1. Single Responsibility: Each interface has one clear purpose
- * 2. Interface Segregation: Small, focused interfaces instead of one large interface
- * 3. Open/Closed: Can extend with new node types without modifying existing ones
- */
-
-// Base node type that all AST nodes extend
 export interface BaseAstNode {
   type: string;
   id?: string; // Unique identifier for tracking in UI
   selected?: boolean; // UI state for selection
 }
 
-// Binary operations (addition, multiplication, etc.)
 export interface BinaryOperationNode extends BaseAstNode {
   type: 'ADDITION' | 'SUBTRACTION' | 'MULTIPLICATION' | 'DIVISION' | 'POWER';
   left: AstNode;
   right: AstNode;
 }
 
-// Unary operations (negation)
 export interface UnaryOperationNode extends BaseAstNode {
-  type: 'NEGATION';
+  type: 'NEGATION' | 'PAREN';
   expression: AstNode;
 }
 
-// Function calls (SQR, SQRT, etc.)
 export interface FunctionNode extends BaseAstNode {
   type: 'FUNCTION';
   name: string;
   arguments: AstNode[];
 }
 
-// Leaf nodes (terminals)
 export interface NumberNode extends BaseAstNode {
   type: 'NUMBER';
   value: number;
@@ -49,8 +35,7 @@ export interface ConstantNode extends BaseAstNode {
   type: 'PI' | 'E';
 }
 
-// Union type for all possible AST nodes
-export type AstNode = 
+export type AstNode =
   | BinaryOperationNode 
   | UnaryOperationNode 
   | FunctionNode 
@@ -72,7 +57,7 @@ export const isBinaryOperation = (node: AstNode): node is BinaryOperationNode =>
 };
 
 export const isUnaryOperation = (node: AstNode): node is UnaryOperationNode => {
-  return node.type === 'NEGATION';
+  return node.type === 'NEGATION' || node.type === 'PAREN';
 };
 
 export const isFunction = (node: AstNode): node is FunctionNode => {

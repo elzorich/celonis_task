@@ -1,0 +1,100 @@
+<div class="tree-visualizer">
+  <!-- Header with stats and controls -->
+  <div class="visualizer-header">
+    <h3>AST Tree Visualization</h3>
+    
+    @if (ast()) {
+      <div class="tree-stats">
+        <span class="stat">
+          <strong>Nodes:</strong> 
+          <span>{{ nodeCount() }}</span>
+        </span>
+        <span class="stat">
+          <strong>Depth:</strong> 
+          <span>{{ treeDepth() }}</span>
+        </span>
+        <span class="stat">
+          <strong>Selected:</strong> 
+          <span>{{ selectedNodeDescription() || 'None' }}</span>
+        </span>
+      </div>
+      
+      <div class="tree-controls">
+        @if (canDelete()) {
+          <button 
+            class="btn btn-delete"
+            (click)="deleteSelected()"
+            title="Delete selected node">
+            Delete Selected
+          </button>
+        }
+        
+        <button 
+          class="btn btn-clear"
+          (click)="clearSelection()"
+          [disabled]="!selectedNodeId()"
+          title="Clear selection">
+          Clear Selection
+        </button>
+        
+        <button 
+          class="btn btn-reset"
+          (click)="clearTree()"
+          title="Clear entire tree">
+          Clear Tree
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- Formula reconstruction display -->
+  @if (ast()) {
+    <div class="formula-display">
+      <label>Reconstructed Formula:</label>
+      <code class="formula">{{ reconstructedFormula() }}</code>
+    </div>
+  }
+
+  <!-- Tree visualization -->
+  <div class="tree-container">
+    @if (ast()) {
+      <app-node
+        [node]="ast()"
+        [isRoot]="true"
+        [isSelected]="ast()!.id === selectedNodeId()"
+        (nodeClick)="onNodeClick($event)"
+        (nodeDelete)="onNodeDelete($event)"
+      />
+    } @else {
+      <div class="empty-state">
+        <p>No AST to visualize</p>
+        <p class="hint">Parse a formula to see its tree structure</p>
+      </div>
+    }
+  </div>
+
+  <!-- Legend -->
+  @if (ast()) {
+    <div class="legend">
+      <h4>Legend</h4>
+      <div class="legend-items">
+        <div class="legend-item">
+          <span class="node-sample operator">+</span>
+          <span>Binary Operation</span>
+        </div>
+        <div class="legend-item">
+          <span class="node-sample function">f</span>
+          <span>Function</span>
+        </div>
+        <div class="legend-item">
+          <span class="node-sample leaf">5</span>
+          <span>Value/Variable</span>
+        </div>
+        <div class="legend-item">
+          <span class="node-sample selected">★</span>
+          <span>Selected</span>
+        </div>
+      </div>
+    </div>
+  }
+</div>

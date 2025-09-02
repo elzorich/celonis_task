@@ -1,0 +1,85 @@
+<div class="node-wrapper">
+  <div 
+    class="node"
+    [class.root]="isRoot"
+    [class.selected]="isSelected || node?.selected"
+    [class.leaf]="isLeaf()"
+    [style.background]="nodeMetadata.color"
+    (click)="onNodeClick($event)">
+    
+    <div class="node-content">
+      <span class="node-icon">{{ nodeMetadata.icon }}</span>
+      
+      <span class="node-label">
+        @if (isFunction()) {
+          {{ functionName() }}
+        } @else if (nodeValue()) {
+          {{ nodeValue() }}
+        } @else {
+          {{ nodeMetadata.label }}
+        }
+      </span>
+      
+      @if ((isSelected || node?.selected) && canDelete()) {
+        <button 
+          class="delete-btn"
+          (click)="onDeleteClick($event)"
+          title="Delete this node">
+          ×
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (hasChildren()) {
+    <div class="children">
+      @if (isBinary()) {
+        <div class="binary-children">
+          <app-node
+            [node]="leftChild()"
+            [isSelected]="leftChild()?.selected"
+            (nodeClick)="onChildNodeClick($event)"
+            (nodeDelete)="onChildNodeDelete($event)"
+          />
+          
+          <div class="operator-badge">
+            {{ operatorSymbol() }}
+          </div>
+          
+          <app-node
+            [node]="rightChild()"
+            [isSelected]="rightChild()?.selected"
+            (nodeClick)="onChildNodeClick($event)"
+            (nodeDelete)="onChildNodeDelete($event)"
+          />
+        </div>
+      }
+
+      @if (isUnary()) {
+        <div class="unary-child">
+          <app-node
+            [node]="expression()"
+            [isSelected]="expression()?.selected"
+            (nodeClick)="onChildNodeClick($event)"
+            (nodeDelete)="onChildNodeDelete($event)"
+          />
+        </div>
+      }
+
+      @if (isFunction()) {
+        <div class="function-args">
+          @for (arg of functionArgs(); track arg.id || $index) {
+            <app-node
+              [node]="arg"
+              [isSelected]="arg?.selected"
+              (nodeClick)="onChildNodeClick($event)"
+              (nodeDelete)="onChildNodeDelete($event)"
+            />
+          }
+        </div>
+      }
+    </div>
+    
+    <div class="connection-line"></div>
+  }
+</div>

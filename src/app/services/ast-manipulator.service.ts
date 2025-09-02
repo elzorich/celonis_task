@@ -1,31 +1,16 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { AstNode, isBinaryOperation, isFunction, isUnaryOperation } from '../models/ast-node.model';
 
-/**
- * AST Manipulator Service - Core State Management with Signals
- * 
- * Learning Points:
- * 1. Signals provide reactive state management without RxJS
- * 2. Computed signals automatically update when dependencies change
- * 3. Signal updates are synchronous and immediately available
- * 
- * SOLID Principles:
- * - Single Responsibility: Manages AST state and operations
- * - Dependency Inversion: Components depend on abstraction (service interface)
- */
 @Injectable({
   providedIn: 'root' // Tree-shakeable singleton
 })
 export class AstManipulatorService {
-  // Private writable signals - encapsulation principle
   private readonly _ast = signal<AstNode | null>(null);
   private readonly _selectedNodeId = signal<string | null>(null);
 
-  // Public readonly signals - immutability principle
   public readonly ast = this._ast.asReadonly();
   public readonly selectedNodeId = this._selectedNodeId.asReadonly();
 
-  // Computed signals - automatically update when dependencies change
   public readonly selectedNode = computed(() => {
     const astValue = this._ast();
     const selectedId = this._selectedNodeId();
@@ -48,43 +33,29 @@ export class AstManipulatorService {
     const selected = this.selectedNode();
     const astValue = this._ast();
     
-    // Can't delete root node
     return selected !== null && selected !== astValue;
   });
 
-  /**
-   * Set the AST and add unique IDs to each node
-   * Demonstrates immutability - creates new objects instead of mutating
-   */
   setAst(ast: AstNode): void {
     const astWithIds = this.addNodeIds(ast);
     this._ast.set(astWithIds);
-    this._selectedNodeId.set(null); // Clear selection when AST changes
+    this._selectedNodeId.set(null);
   }
 
-  /**
-   * Select a node by ID
-   * Updates both the selection ID and marks the node as selected in the AST
-   */
   selectNode(nodeId: string | null): void {
     this._selectedNodeId.set(nodeId);
     
     const currentAst = this._ast();
     if (currentAst) {
-      // Create new AST with updated selection state (immutability)
       const updatedAst = this.updateNodeSelection(currentAst, nodeId);
       this._ast.set(updatedAst);
     }
   }
 
-  /**
-   * Delete a node from the AST
-   * Demonstrates recursive tree manipulation with immutability
-   */
   deleteNode(nodeId: string): void {
     const currentAst = this._ast();
     if (!currentAst || currentAst.id === nodeId) {
-      return; // Can't delete root
+      return;
     }
 
     const updatedAst = this.removeNodeRecursive(currentAst, nodeId);
@@ -94,36 +65,27 @@ export class AstManipulatorService {
     }
   }
 
-  /**
-   * Clear the entire AST
-   */
   clearAst(): void {
     this._ast.set(null);
     this._selectedNodeId.set(null);
   }
 
-  // Private helper methods - encapsulation
-
-  /**
-   * Add unique IDs to all nodes in the AST
-   * Path-based IDs help with debugging (e.g., "L_R_ADDITION_xyz")
-   */
   private addNodeIds(node: AstNode, path = ''): AstNode {
-    const id = `${path}${node.type}_${Math.random().toString(36).substr(2, 9)}`;
+    const id = `${path}${node.type}_${crypto.randomUUID()}`;
     const nodeWithId = { ...node, id, selected: false };
 
     if (isBinaryOperation(node)) {
       return {
         ...nodeWithId,
-        left: this.addNodeIds(node.left, `${path}L_`),
-        right: this.addNodeIds(node.right, `${path}R_`)
+        left: this.addNodeIds(node.left, `${path}left_`),
+        right: this.addNodeIds(node.right, `${path}right_`)
       } as AstNode;
     }
 
     if (isUnaryOperation(node)) {
       return {
         ...nodeWithId,
-        expression: this.addNodeIds(node.expression, `${path}E_`)
+        expression: this.addNodeIds(node.expression, `${path}exp_`)
       } as AstNode;
     }
 
@@ -131,7 +93,7 @@ export class AstManipulatorService {
       return {
         ...nodeWithId,
         arguments: node.arguments.map((arg, index) => 
-          this.addNodeIds(arg, `${path}A${index}_`)
+          this.addNodeIds(arg, `${path}arg${index}_`)
         )
       } as AstNode;
     }
@@ -139,10 +101,6 @@ export class AstManipulatorService {
     return nodeWithId;
   }
 
-  /**
-   * Update selection state in the AST
-   * Creates new objects to maintain immutability
-   */
   private updateNodeSelection(node: AstNode, selectedId: string | null): AstNode {
     const updatedNode = { ...node, selected: node.id === selectedId };
 
@@ -173,10 +131,6 @@ export class AstManipulatorService {
     return updatedNode;
   }
 
-  /**
-   * Remove a node from the AST
-   * Handles different cases: binary ops, functions, unary ops
-   */
   private removeNodeRecursive(node: AstNode, targetId: string): AstNode | null {
     if (isBinaryOperation(node)) {
       // If left child is target, return right child
@@ -228,9 +182,6 @@ export class AstManipulatorService {
     return node;
   }
 
-  /**
-   * Find a node by ID in the AST
-   */
   private findNodeById(node: AstNode, id: string): AstNode | null {
     if (node.id === id) return node;
 
@@ -252,9 +203,6 @@ export class AstManipulatorService {
     return null;
   }
 
-  /**
-   * Count total nodes in the AST
-   */
   private countNodes(node: AstNode): number {
     let count = 1;
 
@@ -269,9 +217,6 @@ export class AstManipulatorService {
     return count;
   }
 
-  /**
-   * Calculate tree depth
-   */
   private calculateDepth(node: AstNode): number {
     if (isBinaryOperation(node)) {
       return 1 + Math.max(
